@@ -1,0 +1,165 @@
+---
+title: "Kenya Data - First Look and Cleaning"
+output: pdf_document
+---
+
+##Loading Data
+Load in the data with new column headings:
+```{r}
+# Load the mapping table of new to old column names and make into a vector
+ColumnNameData <- read.csv("NewColumnNameMapping.csv")
+ColumnNameMap <- ColumnNameData$NewColName
+names(ColumnNameMap) <- ColumnNameData$OldColName
+#Make proposed names syntactically valid for R
+ColumnNameMap <- make.names(ColumnNameMap, unique=TRUE)
+#Load in data using new column names
+Kenya <- read.csv("Addressing the -1 for DataKind - KENYA SURVEY - KMM UPDATES 22 JAN cleaned data - Sheet1.csv",
+                  header = FALSE, stringsAsFactors = FALSE, skip = 2, 
+                  col.names = ColumnNameMap)
+
+#Also add a function to make proper case
+properCase <- function(x) {
+  lower <- tolower(x)
+  s <- strsplit(lower, " ")[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2),
+      sep="", collapse=" ")
+}
+```
+
+Show the dimensions of the loaded data to make sure it was loaded ok (rows, columns)
+```{r}
+dim(Kenya)
+```
+
+##Analysing breakdown of gender and age
+For Q10 on sex, 1: Male, 2: Female
+
+For Q11 on age, 1: <=30, 2: 31-41, 3: 41-50, 4: 57-70, 5: >70
+```{r}
+table(Kenya$Q10.Sex)
+table(Kenya$Q11.Age)
+table(Kenya$Q10.Sex, Kenya$Q11.Age)
+```
+
+##Standardising text fields (Q3, 4 and 7)
+Convert the 'Cooperative Society' field, Question 3, to proper case then make a table of all values.
+
+(Question: Are any of these similar spellings actually the same?)
+```{r}
+Kenya$Q3.CoopSociety <- sapply(Kenya$Q3.CoopSociety, properCase)
+table(Kenya$Q3.CoopSociety)
+```
+
+Convert the 'Village' field, Question 4, to proper case then make a table of all values.
+
+(Question: Are any of these similarly-spelled villages actually the same?)
+```{r}
+Kenya$Q4.Village <- sapply(Kenya$Q4.Village, properCase)
+table(Kenya$Q4.Village)
+```
+
+Convert the 'Producer organisation' field, Question 7, to proper case then make a table of all values.
+
+(Question: Are any of these similarly-spelled orgs actallly the same?)
+```{r}
+Kenya$Q7.ProducerOrg <- sapply(Kenya$Q7.ProducerOrg, properCase)
+table(Kenya$Q7.ProducerOrg)
+```
+
+##Columns with only one value
+Identify which columns only have one unique value
+```{r}
+names(Filter(function(x)(length(unique(x))<2), Kenya))
+```
+
+##Duplicate columns
+Check if Q155 values are identical to Q158 values
+```{r}
+table(Kenya$Q155.HowLongUsingIdea == Kenya$Q158.HowLongUsingIdea)
+```
+Eliminate one field from the dataset since they are identical
+```{r}
+Kenya$Q158.HowLongUsingIdea <- NULL
+```
+
+##Cleaning free-text number fields (Q38-40, 61-3, 69-72, 77-9, 113, 118)
+Note: Look into Q73-76 since column descriptions appear duplicative to 69-71
+
+Show unique values in Q38:
+```{r}
+unique(Kenya$Q38.CashCropEarnings)
+```
+
+Replace all non-digit characters with blank space, convert field to integer, then show unique values in Q38 and also plot histogram:
+```{r}
+Kenya$Q38.CashCropEarnings <- as.integer(gsub("[^0-9]", "", Kenya$Q38.CashCropEarnings))
+unique(Kenya$Q38.CashCropEarnings)
+hist(Kenya$Q38.CashCropEarnings)
+```
+
+Show unique values in Q39
+```{r}
+unique(Kenya$Q39.CashCropPx)
+```
+
+Replace all non-digit and non "." characters with blank space, convert field to numeric, then show unique values in Q39 and also plot histogram
+```{r}
+Kenya$Q39.CashCropPx <- as.numeric(str_extract(Kenya$Q39.CashCropPx, "\\d{1,}\\.?(\\d{1,})?"))
+unique(Kenya$Q39.CashCropPx)
+hist(Kenya$Q39.CashCropPx)
+```
+
+Show unique values in Q40
+```{r}
+unique(Kenya$Q40.CostOfProduction)
+```
+
+Replace all non-digit characters with blank space, convert field to integer, then show unique values in Q40 and also plot histogram:
+```{r}
+Kenya$Q40.CostOfProduction <- as.integer(gsub("[^0-9]", "", Kenya$Q40.CostOfProduction))
+unique(Kenya$Q40.CostOfProduction)
+hist(Kenya$Q40.CostOfProduction)
+```
+
+Show unique values in Q61, replace all non-digit characters with blank space, convert field to integer, then show resulting unique values 
+```{r}
+unique(Kenya$Q61.CropEarning)
+Kenya$Q61.CropEarning <- as.integer(gsub("[^0-9]", "", Kenya$Q61.CropEarning))
+unique(Kenya$Q61.CropEarning)
+```
+
+Show unique values in Q62
+Note: Q62 appears to be all in different units (sack, kg, bundle, punch, crate). Best to avoid this for analysis at the moment.
+```{r}
+unique(Kenya$Q62.CropSalePx)
+```
+
+Show unique values in Q63, replace all non-digit characters with blank space, convert field to integer, then show resulting unique values 
+```{r}
+unique(Kenya$Q63.ProductionCost)
+Kenya$Q63.ProductionCost <- as.integer(gsub("[^0-9]", "", Kenya$Q63.ProductionCost))
+unique(Kenya$Q63.ProductionCost)
+```
+
+TO-DO: do similar analysis for individual crop results in 69-79
+
+Show unique values in Q113
+```{r}
+unique(Kenya$Q113.CostOfChange)
+```
+
+Show unique values in Q118
+```{r}
+unique(Kenya$Q118.CostStarting)
+```
+
+##Longitude and Latitude values
+First check how many values are present (not NA), then plot histogram showing distribution
+```{r}
+length(which(!is.na(Kenya$Latitude)))
+length(which(!is.na(Kenya$Longitude)))
+summary(Kenya$Latitude)
+hist(Kenya$Latitude)
+summary(Kenya$Longitude)
+hist(Kenya$Longitude)
+```
