@@ -141,7 +141,7 @@ Kenya$Q63.ProductionCost <- as.integer(gsub("[^0-9]", "", Kenya$Q63.ProductionCo
 unique(Kenya$Q63.ProductionCost)
 ```
 
-TO-DO: do similar analysis for individual crop results in 69-79
+*NOTE:* Similar analyses and modifications are made for individual crop results in Questions 69-79
 
 Show unique values in Q113
 ```{r}
