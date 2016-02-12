@@ -50,3 +50,7 @@ Kenya$Q82.NumberChickensSold <- as.integer(gsub("[^0-9]", "", Kenya$Q82.NumberCh
 Kenya$Q84.TotalEarningsChickens <- as.integer(gsub("[^0-9]", "", Kenya$Q84.TotalEarningsChickens))
 Kenya$Q113.CostOfChange <- as.integer(gsub("[^0-9]", "", Kenya$Q113.CostOfChange))
 Kenya$Q118.CostStarting <- as.integer(gsub("[^0-9]", "", Kenya$Q118.CostStarting))
+
+
+#Write final file to csv format
+write.csv(Kenya, "KenyaClean.csv")
