@@ -47,3 +47,6 @@ Kenya$Q81.AmountEarnedChickens <- as.integer(gsub("[^0-9]", "", Kenya$Q81.Amount
 Kenya$Q82.NumberChickensSold <- gsub("None", 0, Kenya$Q82.NumberChickensSold)
 Kenya$Q82.NumberChickensSold <- gsub("none", 0, Kenya$Q82.NumberChickensSold)
 Kenya$Q82.NumberChickensSold <- as.integer(gsub("[^0-9]", "", Kenya$Q82.NumberChickensSold))
+Kenya$Q84.TotalEarningsChickens <- as.integer(gsub("[^0-9]", "", Kenya$Q84.TotalEarningsChickens))
+Kenya$Q113.CostOfChange <- as.integer(gsub("[^0-9]", "", Kenya$Q113.CostOfChange))
+Kenya$Q118.CostStarting <- as.integer(gsub("[^0-9]", "", Kenya$Q118.CostStarting))
