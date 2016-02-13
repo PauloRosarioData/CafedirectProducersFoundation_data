@@ -32,8 +32,7 @@ library(stringr)
 #To-do: modify this to use regular expressions, so that the word "million" or "m" converts to 000000
 #Uganda$Q38.CashCropEarnings <- as.integer(gsub("[^0-9]", "", Uganda$Q38.CashCropEarnings))
 
-#To-do: modify this regex to interpret the commas better
-#Uganda$Q39.CashCropPx <- as.numeric(str_extract(Uganda$Q39.CashCropPx, "\\d{1,}\\.?(\\d{1,})?"))
+Uganda$Q39.CashCropPx <- as.integer(gsub("[^0-9]", "", Uganda$Q39.CashCropPx))
 
 #No processing on Q40 for Uganda given different units specified
 #Uganda$Q40.CostOfProduction <- as.integer(gsub("[^0-9]", "", Uganda$Q40.CostOfProduction))
