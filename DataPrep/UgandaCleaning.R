@@ -70,6 +70,7 @@ Uganda$Q74.NumberGoatsSold <- as.integer(gsub("[^0-9]", "", Uganda$Q74.NumberGoa
 
 Uganda$Q75.PxPerGoat <- as.integer(gsub("[^0-9]", "", Uganda$Q75.PxPerGoat))
 Uganda$Q76.TotalEarningGoats <- as.integer(gsub("[^0-9]", "", Uganda$Q76.TotalEarningGoats))
+Uganda$Q77.AmountEarnedPigs <- gsub("none", 0, Uganda$Q77.AmountEarnedPigs)
 Uganda$Q77.AmountEarnedPigs <- as.integer(gsub("[^0-9]", "", Uganda$Q77.AmountEarnedPigs))
 Uganda$Q80.TotalEarningPigs <- as.integer(gsub("[^0-9]", "", Uganda$Q80.TotalEarningPigs))
 
@@ -77,12 +78,14 @@ Uganda$Q81.AmountEarnedChickens <- as.integer(gsub("[^0-9]", "", Uganda$Q81.Amou
 
 #Same here, but first replacing 'None' with 0. To-do: make this cleaner with regex!
 
-Uganda$Q82.NumberChickensSold <- gsub("None", 0, Uganda$Q82.NumberChickensSold)
-Uganda$Q82.NumberChickensSold <- gsub("none", 0, Uganda$Q82.NumberChickensSold)
-Uganda$Q82.NumberChickensSold <- as.integer(gsub("[^0-9]", "", Uganda$Q82.NumberChickensSold))
+#Uganda$Q82.NumberChickensSold <- gsub("None", 0, Uganda$Q82.NumberChickensSold)
+#Uganda$Q82.NumberChickensSold <- gsub("none", 0, Uganda$Q82.NumberChickensSold)
+#UUganda$Q82.NumberChickensSold <- as.integer(gsub("[^0-9]", "", Uganda$Q82.NumberChickensSold))
 Uganda$Q84.TotalEarningsChickens <- as.integer(gsub("[^0-9]", "", Uganda$Q84.TotalEarningsChickens))
-Uganda$Q113.CostOfChange <- as.integer(gsub("[^0-9]", "", Uganda$Q113.CostOfChange))
-Uganda$Q118.CostStarting <- as.integer(gsub("[^0-9]", "", Uganda$Q118.CostStarting))
+
+#Sort out the millions thing here
+#Uganda$Q113.CostOfChange <- as.integer(gsub("[^0-9]", "", Uganda$Q113.CostOfChange))
+#Uganda$Q118.CostStarting <- as.integer(gsub("[^0-9]", "", Uganda$Q118.CostStarting))
 
 
 #Write final file to csv format

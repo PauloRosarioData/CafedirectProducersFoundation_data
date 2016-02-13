@@ -104,6 +104,7 @@ unique(Kenya$Q39.CashCropPx)
 
 Replace all non-digit and non "." characters with blank space, convert field to numeric, then show unique values in Q39 and also plot histogram
 ```{r}
+library(stringr)
 Kenya$Q39.CashCropPx <- as.numeric(str_extract(Kenya$Q39.CashCropPx, "\\d{1,}\\.?(\\d{1,})?"))
 unique(Kenya$Q39.CashCropPx)
 hist(Kenya$Q39.CashCropPx)
