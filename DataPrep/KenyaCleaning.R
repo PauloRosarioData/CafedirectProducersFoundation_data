@@ -21,6 +21,24 @@ properCase <- function(x) {
         sep="", collapse=" ")
 }
                             
+#Eliminate early survey application meta-data fields that contain no unique values
+Kenya$Filter <- NULL
+Kenya$SbjNam <- NULL
+Kenya$UsrUnq <- NULL
+Kenya$SubjData <- NULL
+Kenya$RvwTime <- NULL
+Kenya$RvwComment <- NULL
+Kenya$SrvyrComment <- NULL
+Kenya$Complete <- NULL
+Kenya$StopQ <- NULL
+Kenya$Test <- NULL
+Kenya$ParentID <- NULL
+Kenya$Status <- NULL
+Kenya$QAScore <- NULL
+Kenya$FrScName <- NULL
+Kenya$ExReNum <- NULL
+Kenya$RvwName <- NULL
+
 #Convert contents of three fields to proper case
 Kenya$Q3.CoopSociety <- sapply(Kenya$Q3.CoopSociety, properCase)
 Kenya$Q4.Village <- sapply(Kenya$Q4.Village, properCase)
